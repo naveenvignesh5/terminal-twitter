@@ -18,6 +18,19 @@ class twt {
             if (!error) logInfo(tweet);
         });
     }
+
+    favoriteTweets() {
+        this.client.get('favorites/list', function(error, tweets, response) {
+            if (error) {
+                logError(error);
+                return;
+            }
+
+            tweets.forEach(tw => {
+                logInfo(JSON.stringify(tw.text));
+            });
+        });
+    }
 }
 
 module.exports = twt;
