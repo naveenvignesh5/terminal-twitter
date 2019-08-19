@@ -20,7 +20,7 @@ const request_data = {
 
 
 const login = async () => {
-    const cred = JSON.parse(await keytar.getPassword('twitter-cmd-tool', 'default',)) || {};
+    const cred = JSON.parse(await keytar.getPassword('twitter-cmd-tool', 'default')) || {};
 
     if (cred.user_access_token && cred.user_access_token_secret) {
         logSuccess('Already logged in.');
@@ -64,7 +64,7 @@ const login = async () => {
 
         // 3. Getting user access token and user access token secret
         let res_access_token = await axios.post(`${baseOAuthUrl}/access_token?oauth_token=${oauth_token}&oauth_verifier=${oauth_verifier}&oauth_consumer_key=${consumer_key}`)
-
+                
         let user_access_token = res_access_token.data.split('&')[0].split('=')[1];
         let user_access_token_secret = res_access_token.data.split('&')[1].split('=')[1];
 
@@ -79,10 +79,20 @@ const login = async () => {
 
         logSuccess('Logged in successfully');
     } catch (err) {
-        logError(err.response.data);
+        logError(JSON.stringify(err));
+    }
+};
+
+const logout = async () => {
+    try {
+        await keytar.deletePassword('twitter-cmd-tool', 'default');
+        logSuccess('Logged out.');
+    } catch (err) {
+        logError(err);
     }
 };
 
 module.exports = {
     login,
+    logout,
 };

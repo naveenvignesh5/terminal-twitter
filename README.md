@@ -10,6 +10,8 @@ $ git clone git@github.com:naveenvignesh5/twitter-cmd.git
 $ npm i
 
 $ mv .env.template .env # update consumer key and secret from twitter dashboard
+
+$ npm link
 ```
 
 ### **Running the Project**
@@ -20,4 +22,19 @@ $ node index.js
 or
 
 $ npm start
+```
+
+### **How to use**
+
+#### Sending a tweet
+
+```shell
+$ twcmd -t "hello world !!!"
+```
+
+#### Login and Logout
+
+
+```shell
+$ twcmd --logout
 ```
