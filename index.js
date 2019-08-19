@@ -7,10 +7,6 @@ const twt = require('./libs/twitter');
 
 const pkgVersion = require('./package.json').version;
 
-require('dotenv').config();
-
-let twitter = null;
-
 const run = async () => {
     try {
         let cred = await keytar.getPassword('twitter-cmd-tool', 'default');
@@ -30,6 +26,7 @@ const run = async () => {
             .option('-f, --favorite')
             .option('-F, --file [value]')
             .option('-t, --track [value]')
+            .option('-s, --search [value]')
             .option('--logout', 'Logout from application')
             .parse(process.argv);
         
@@ -47,6 +44,7 @@ const run = async () => {
             twitter.tweet(program.tweet);
         }
 
+        if (program.search) twitter.searchTweets(program.search);
     } catch (err) {
         logError(err);
     }

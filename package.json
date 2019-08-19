@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,6 @@
     "chalk": "^2.4.2",
     "commander": "^3.0.0",
     "crypto": "^1.0.1",
-    "dotenv": "^8.1.0",
     "inquirer": "^6.5.1",
     "keytar": "^5.0.0-beta.0",
     "oauth-1.0a": "^2.2.6",

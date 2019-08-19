@@ -9,7 +9,7 @@ $ git clone git@github.com:naveenvignesh5/twitter-cmd.git
 
 $ npm i
 
-$ mv .env.template .env # update consumer key and secret from twitter dashboard
+$ mv api.json.template api.json # update consumer key and secret from twitter dashboard
 
 $ npm link
 ```
