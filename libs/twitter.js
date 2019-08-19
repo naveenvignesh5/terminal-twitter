@@ -1,5 +1,5 @@
 const Twitter = require('twitter');
-const { logError, logInfo } = require('./cmd');
+const { logError, logTweet } = require('./cmd');
 
 class twt {
     constructor(cred) {
@@ -13,9 +13,9 @@ class twt {
 
     tweet(status) {
         this.client.post('statuses/update', { status }, function(error, tweet, response) {
-            if (error) logError(error)
+            if (error) logError(JSON.stringify(error));
 
-            if (!error) logInfo(tweet);
+            if (!error) logTweet(tweet);
         });
     }
 
