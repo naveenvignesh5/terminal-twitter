@@ -6,6 +6,7 @@ const inquirer = require('inquirer');
 const keytar = require('keytar');
 
 const { logError, logSuccess } = require('./cmd');
+const { TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = require('../api.json');
 
 const prompt = inquirer.createPromptModule();
 
@@ -27,10 +28,10 @@ const login = async () => {
         return;
     }
 
-    const consumer_key = process.env.TWITTER_CONSUMER_KEY;
+    const consumer_key = TWITTER_CONSUMER_KEY;
 
     const oauth = OAuth({
-        consumer: { key: consumer_key, secret: process.env.TWITTER_CONSUMER_SECRET },
+        consumer: { key: consumer_key, secret: TWITTER_CONSUMER_SECRET },
         signature_method: 'HMAC-SHA1',
         hash_function(base_string, key) {
             return crypto

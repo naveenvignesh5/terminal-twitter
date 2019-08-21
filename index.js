@@ -11,22 +11,21 @@ const run = async () => {
     try {
         let cred = await keytar.getPassword('twitter-cmd-tool', 'default');
 
-        let twitter = new twt(JSON.parse(cred));
-
         if (!cred) {
             login();
             return;
         }
-
+        
+        let twitter = new twt(JSON.parse(cred));
 
         program
             .version(pkgVersion)
             .option('-l, --login', 'Login to twitter account')
-            .option('-t, --tweet [value]')
-            .option('-f, --favorite')
-            .option('-F, --file [value]')
-            .option('-t, --track [value]')
-            .option('-s, --search [value]')
+            .option('-t, --tweet [value]', 'Send a tweet')
+            .option('-f, --favorite', 'Favorite flag to be used along with tweet flag')
+            .option('-m, --media [value]', 'Upload media as tweet')
+            .option('-t, --track [value]', 'Track a hashtag or user for updates')
+            .option('-s, --search [value]', 'Search twitter for tweets, keywords, etc.')
             .option('--logout', 'Logout from application')
             .parse(process.argv);
         
@@ -41,6 +40,11 @@ const run = async () => {
                 return;
             }
 
+            if (program.media) {
+                twitter.tweetWithMedia(program.tweet, program.media);
+                return;
+            }
+            
             twitter.tweet(program.tweet);
         }
 

@@ -1,9 +1,12 @@
 const Twitter = require('twitter');
+const fs = require('fs');
 const { logError, logTweet } = require('./cmd');
 const { TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = require('../api.json');
 
 class twt {
     constructor(cred) {
+        console.log(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET);
+
         this.client = new Twitter({
             consumer_key: TWITTER_CONSUMER_KEY,
             consumer_secret: TWITTER_CONSUMER_SECRET,
@@ -17,6 +20,31 @@ class twt {
             if (error) logError(JSON.stringify(error));
 
             if (!error) logTweet(tweet);
+        });
+    }
+
+    tweetWithMedia(status, media) {
+        let data = fs.readFileSync(media);
+
+        this.client.post('media/upload', { media: data }, function(error, media, response) {
+            if (error) {
+                logError(error);
+                return;
+            }
+
+            let statusBody = {
+                status,
+                media_ids: media.media_id_string, // pass the media id string
+            };
+
+            this.client.post('statuses/update', statusBody, function(error, tweet, response) {
+                if (error) {
+                    logError(JSON.stringify(error));
+                    return;
+                }
+
+                logTweet(tweet);
+            });
         });
     }
 
