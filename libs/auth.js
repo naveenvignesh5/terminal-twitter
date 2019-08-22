@@ -11,7 +11,7 @@ const { TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = require('../api.json')
 const prompt = inquirer.createPromptModule();
 
 const baseOAuthUrl = 'https://api.twitter.com/oauth'
-const oauth_callback = 'http://naveenvignesh.xyz/twitterBotAuthRedirect';
+const oauth_callback = 'https://twitter-cli-tool.herokuapp.com/';
 
 const request_data = {
     url: `${baseOAuthUrl}/request_token`,
@@ -49,8 +49,8 @@ const login = async () => {
         // 2. Openning authenticate url in browser to authorize application
         await open(`${baseOAuthUrl}/authenticate?oauth_token=${token}`);
 
-        // 2.a Getting oauth_token, oauth_verifier from user which is visible in redirect url
-        let { oauth_token, oauth_verifier } = await prompt([
+        // 3. Getting oauth_token, oauth_token_secret from user which is visible in redirect url
+        let { oauth_token, oauth_token_secret } = await prompt([
             {
                 type: 'input',
                 name: 'oauth_token',
@@ -58,23 +58,17 @@ const login = async () => {
             },
             {
                 type: 'input',
-                name: 'oauth_verifier',
-                message: 'Please enter the oauth_verifier',
+                name: 'oauth_token_secret',
+                message: 'Please enter the oauth_token_secret',
             }
         ]);
-
-        // 3. Getting user access token and user access token secret
-        let res_access_token = await axios.post(`${baseOAuthUrl}/access_token?oauth_token=${oauth_token}&oauth_verifier=${oauth_verifier}&oauth_consumer_key=${consumer_key}`)
-                
-        let user_access_token = res_access_token.data.split('&')[0].split('=')[1];
-        let user_access_token_secret = res_access_token.data.split('&')[1].split('=')[1];
-
+        
         keytar.setPassword(
             'twitter-cmd-tool',
             'default',
             JSON.stringify({
-                user_access_token,
-                user_access_token_secret,
+                user_access_token: oauth_token,
+                user_access_token_secret: oauth_token_secret,
             }),
         );
 

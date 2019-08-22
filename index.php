@@ -1,3 +1,24 @@
+<?php
+    $token = $_GET['oauth_token'];
+    $verifier = $_GET['oauth_verifier'];
+
+    $url = "https://https://api.twitter.com/oauth/access_token?oauth_token=".$token."&oauth_verifier=".$verifier;
+
+    $ch = curl_init();
+
+    curl_setopt($ch,CURLOPT_URL, $url);                
+    curl_setopt($ch,CURLOPT_POST, true);
+
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
+
+    $result = curl_exec($ch);
+
+    if (isset($result)) {
+        $result = preg_split ("&", $result);
+        $token = (preg_split ("=", $result[0]))[1];
+        $secret = (preg_split ("=", $result[1]))[1];
+    }
+?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -30,11 +51,17 @@
       </h1>
       <div class="is-flex">
           <p class="subtitle">oauth_token</p>&nbsp;&nbsp;
-          <p><span class="tag is-light" id="oauth_token">NULL</span></p>
+          <p>
+            <span class="tag is-light" id="oauth_token">
+                <?php
+                    echo $token;
+                ?>
+            </span>
+        </p>
       </div>
       <div class="is-flex">
           <p class="subtitle">oauth_token_secret</p>&nbsp;&nbsp;
-          <p><span class="tag is-light" id="oauth_token_secret">NULL</span></p>
+          <p><span class="tag is-light" id="oauth_token_secret"><?php echo $secret; ?></span></p>
       </div>
       <p id="error"></p>
       <p class="subtitle">
@@ -43,25 +70,5 @@
       </p>
     </div>
   </section>
-  <script>
-        (function() {
-            let url = new URL(window.location.href);
-            let oauth_token = url.searchParams.get("oauth_token");
-            let oauth_verifier = url.searchParams.get("oauth_verifier");
-    
-            if (!oauth_token || !oauth_verifier) {
-                $('#error').text('Unable to get credentials. Something went wrong !!!');
-                return;
-            }
-
-            $.post(`https://api.twitter.com/oauth/access_token?oauth_token=${oauth_token}&oauth_verifier=${oauth_verifier}`, function(data) {
-                let user_access_token = data.split('&')[0].split('=')[1];
-                let user_access_token_secret = data.split('&')[1].split('=')[1]; 
-            });
-    
-            $('#oauth_token').text(user_access_token);
-            $('#oauth_token_secret').text(user_access_token_secret);
-        })();
-  </script>
   </body>
 </html>
