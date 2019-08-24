@@ -1,5 +1,5 @@
 {
-  "name": "twitter-cmd",
+  "name": "terminal-twitter",
   "version": "1.0.0",
   "description": "Simple Twitter CLI tool to operate twitter from terminal.",
   "main": "index.js",
@@ -7,8 +7,19 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
-  "keywords": [],
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/naveenvignesh5/twitter-cmd.git"
+  },
+  "keywords": [
+    "cli",
+    "twitter",
+    "command-line",
+    "terminal",
+    "twitter-bot",
+    "cmd"
+  ],
+  "author": "Naveen Vignesh.B",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.0",
