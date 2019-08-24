@@ -1,6 +1,0 @@
-node_modules
-libs
-api.json.template
-*.js
-package.json
-package-lock.json

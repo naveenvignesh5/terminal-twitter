@@ -47,7 +47,7 @@ const login = async () => {
         let token = res.data.split('&')[0].split('=')[1];
 
         // 2. Openning authenticate url in browser to authorize application
-        await open(`${baseOAuthUrl}/authenticate?oauth_token=${token}`);
+        await open(`${baseOAuthUrl}/authenticate?oauth_token=${token}&force_login=true`);
 
         // 3. Getting oauth_token, oauth_token_secret from user which is visible in redirect url
         let { oauth_token, oauth_token_secret } = await prompt([
