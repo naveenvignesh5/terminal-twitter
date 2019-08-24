@@ -11,7 +11,7 @@ const { TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = require('../api.json')
 const prompt = inquirer.createPromptModule();
 
 const baseOAuthUrl = 'https://api.twitter.com/oauth'
-const oauth_callback = 'https://twitter-cli-tool.herokuapp.com/';
+const oauth_callback = 'http://naveenvignesh.xyz/twitterBotAuthRedirect';
 
 const request_data = {
     url: `${baseOAuthUrl}/request_token`,

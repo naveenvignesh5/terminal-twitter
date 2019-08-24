@@ -24,7 +24,7 @@ const run = async () => {
             .option('-t, --tweet [value]', 'Send a tweet')
             .option('-f, --favorite', 'Favorite flag to be used along with tweet flag')
             .option('-m, --media [value]', 'Upload media as tweet')
-            .option('-t, --track [value]', 'Track a hashtag or user for updates')
+            .option('-T, --track [value]', 'Track a hashtag or user for updates')
             .option('-s, --search [value]', 'Search twitter for tweets, keywords, etc.')
             .option('--logout', 'Logout from application')
             .parse(process.argv);
@@ -49,6 +49,8 @@ const run = async () => {
         }
 
         if (program.search) twitter.searchTweets(program.search);
+
+        if (program.track) twitter.trackTweet(program.track);
     } catch (err) {
         logError(err);
     }
