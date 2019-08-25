@@ -1,6 +1,4 @@
 const chalk = require('chalk');
-const moment = require('moment');
-const process = require('process');
 
 const log = console.log;
 
@@ -10,7 +8,7 @@ const logSuccess = message => log(chalk.green.bold(message));
 
 const logInfo = info => log(chalk.blue.bold(info));
 
-const logTweet = (tweet, options) => {
+const logTweet = (tweet) => {
     let d = new Date(tweet.created_at);
 
     let dformat = [
@@ -23,7 +21,13 @@ const logTweet = (tweet, options) => {
         d.getSeconds()
     ].join(':');
 
-    log(chalk.blue.bold(tweet.text), "by", chalk.cyan(tweet.user.screen_name), chalk.green(dformat));
+    let tweetText = tweet.text;
+
+    if (tweet.truncated && tweet.extended_tweet) {
+        tweetText = tweet.extended_tweet.full_text;
+    }
+
+    log(chalk.blue.bold(tweetText), "by", chalk.cyan(tweet.user.screen_name), chalk.green(dformat), '\n');
 };
 
 module.exports = {

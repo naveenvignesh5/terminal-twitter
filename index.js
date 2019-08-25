@@ -33,6 +33,14 @@ const run = async () => {
         
         if (program.logout) logout();
         
+        if (program.media) {
+            if (!program.tweet) {
+                logError("Required tweet text with media upload");
+                return;
+            }
+
+            twitter.tweetWithMedia(program.tweet, program.media);
+        }
         if (program.tweet) {
             
             if (program.favorite) {
@@ -40,11 +48,6 @@ const run = async () => {
                 return;
             }
 
-            if (program.media) {
-                twitter.tweetWithMedia(program.tweet, program.media);
-                return;
-            }
-            
             twitter.tweet(program.tweet);
         }
 

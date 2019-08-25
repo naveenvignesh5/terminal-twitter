@@ -33,7 +33,7 @@ $ twcmd -t "hello world !!!" -m ~/Movies/sample_movie.mp4
 ### List favorite tweets
 
 ```shell
-$ twcmd -f "trump"
+$ twcmd -f -t
 ```
 
 ### Listening to tweets
@@ -44,6 +44,12 @@ $ twcmd --track "some text"
 
 #### Example 
 ![Track](https://raw.githubusercontent.com/naveenvignesh5/twitter-cmd/master/assets/track.gif)
+
+### Searching for tweets
+
+```shell
+$ twcmd -s "trump"
+```
 
 ### **Development Environment Setup**
 

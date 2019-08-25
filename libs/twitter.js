@@ -1,6 +1,6 @@
 const Twitter = require('twitter');
 const fs = require('fs');
-const { logError, logTweet } = require('./cmd');
+const { logError, logTweet, logInfo } = require('./cmd');
 const { TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = require('../api.json');
 
 class twt {
@@ -75,7 +75,7 @@ class twt {
     }
 
     trackTweet(track) {
-        this.client.stream('statuses/filter', { track }, function (stream) {
+        this.client.stream('statuses/filter', { track, tweet_mode:'extended' }, function (stream) {
             stream.on('data', function (tweet) {
                 logTweet(tweet);
             });

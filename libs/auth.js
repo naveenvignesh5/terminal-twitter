@@ -21,7 +21,7 @@ const request_data = {
 
 
 const login = async () => {
-    const cred = JSON.parse(await keytar.getPassword('twitter-cmd-tool', 'default')) || {};
+    const cred = JSON.parse(await keytar.getPassword('terminal-twitter', 'default')) || {};
 
     if (cred.user_access_token && cred.user_access_token_secret) {
         logSuccess('Already logged in.');
@@ -64,7 +64,7 @@ const login = async () => {
         ]);
         
         keytar.setPassword(
-            'twitter-cmd-tool',
+            'terminal-twitter',
             'default',
             JSON.stringify({
                 user_access_token: oauth_token,
@@ -80,7 +80,7 @@ const login = async () => {
 
 const logout = async () => {
     try {
-        await keytar.deletePassword('twitter-cmd-tool', 'default');
+        await keytar.deletePassword('terminal-twitter', 'default');
         logSuccess('Logged out.');
     } catch (err) {
         logError(err);
