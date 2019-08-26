@@ -1,6 +1,6 @@
 {
   "name": "terminal-twitter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple Twitter CLI tool to operate twitter from terminal.",
   "main": "index.js",
   "scripts": {
