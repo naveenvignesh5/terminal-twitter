@@ -8,6 +8,16 @@ const logSuccess = message => log(chalk.green.bold(message));
 
 const logInfo = info => log(chalk.blue.bold(info));
 
+const logUser = user => {
+    log(
+        chalk.blue.bold(user.screen_name),
+        "aka",
+        chalk.yellow.italic(user.name),
+        "-",
+        chalk.red(user.description || "N/A")
+    );
+};
+
 const logTweet = (tweet) => {
     let d = new Date(tweet.created_at);
 
@@ -35,4 +45,5 @@ module.exports = {
     logSuccess,
     logInfo,
     logTweet,
+    logUser,
 };

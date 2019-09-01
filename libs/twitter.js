@@ -1,7 +1,14 @@
 const Twitter = require('twitter');
 const fs = require('fs');
-const { logError, logTweet, logInfo } = require('./cmd');
+const axios = require('axios');
+const chalk = require('chalk');
+
+const { generateOAuthHeader } = require('./auth');
+const { logError, logTweet, logInfo, logUser } = require('./log');
+
 const { TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET } = require('../api.json');
+
+const TWITTER_BASE_URL = 'https://api.twitter.com/1.1';
 
 class twt {
     constructor(cred) {
@@ -84,6 +91,58 @@ class twt {
                 logError(error.message);
             });
         });
+    }
+
+    async getFollowersList(screen_name) {
+        let reqData= {
+            url: `${TWITTER_BASE_URL}/followers/list.json?screen_name=${screen_name}`,
+            method: 'GET',
+        };
+
+        try {
+            let headers = await generateOAuthHeader(reqData);
+
+            const res = await axios({
+                url: reqData.url,
+                method: reqData.method,
+                headers,
+            });
+            
+            res.data.users.forEach(user => {
+                logUser(user);
+            });
+
+            console.log(
+                "\n",
+                chalk.italic.red("Number of followers"),
+                "-",
+                chalk.blue.bold(res.data.users.length)
+            );
+        } catch (err) {
+            logError(JSON.stringify(err.response.data) || "Something went wrong !!!");
+        }
+    }
+
+    async getFriendsList(screen_name) {
+        let reqData = {
+            url: `${TWITTER_BASE_URL}/friends/list.json?screen_name=${screen_name}`,
+            method: 'GET',
+        };
+
+        try {
+            let headers = await generateOAuthHeader(reqData);
+
+            const res = await axios({
+                ...reqData,
+                headers,
+            });
+
+            res.data.users.forEach(user => {
+                logUser(user);
+            });
+        } catch (err) {
+            logError(JSON.stringify(err.response.data) || "Something went wrong !!!");
+        }
     }
 }
 
