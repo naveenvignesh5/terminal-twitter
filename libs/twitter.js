@@ -133,12 +133,43 @@ class twt {
             let headers = await generateOAuthHeader(reqData);
 
             const res = await axios({
-                ...reqData,
+                url: reqData.url,
+                method: reqData.method,
                 headers,
             });
 
             res.data.users.forEach(user => {
                 logUser(user);
+            });
+        } catch (err) {
+            logError(JSON.stringify(err.response.data) || "Something went wrong !!!");
+        }
+    }
+
+    async getFriendRequests() {
+        let reqData = {
+            url: `${TWITTER_BASE_URL}/friendships/incoming.json`,
+            method: 'GET',
+        };
+
+        try {
+            let headers = await generateOAuthHeader(reqData);
+
+            const res = await axios({
+                url: reqData.url,
+                method: reqData.method,
+                headers,
+            });
+
+            let requestIds = res.data.ids;
+
+            if (requestIds.length === 0) {
+                logInfo('No friend requests available.');
+                return;
+            }
+
+            requestIds.forEach(id => {
+                chalk.blue.bold(id);
             });
         } catch (err) {
             logError(JSON.stringify(err.response.data) || "Something went wrong !!!");

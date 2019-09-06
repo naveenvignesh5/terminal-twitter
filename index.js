@@ -20,15 +20,19 @@ const run = async () => {
 
         program
             .version(pkgVersion)
-            .option('-l, --login', 'Login to twitter account')
             .option('-t, --tweet [value]', 'Send a tweet')
-            .option('-f, --favorite', 'Favorite flag to be used along with tweet flag')
             .option('-m, --media [value]', 'Upload media as tweet')
             .option('-T, --track [value]', 'Track a hashtag or user for updates')
             .option('-s, --search [value]', 'Search twitter for tweets, keywords, etc.')
-            .option('--followers [value]', 'List followers')
-            .option('--friends [value]', 'List friends')
+            .option('--followers [value]', 'List your followers and followers of any other user')
+            .option('--friends [value]', 'List your friends and friends of any other user')
+            .option('-l, --login', 'Login to twitter account')
+            .option('-f, --favorite', 'Favorite flag to be used along with tweet flag')
+            .option('--requests', 'List friend requests')
             .option('--logout', 'Logout from application')
+            .option('-c, --create')
+            .option('-u, --update')
+            .option('-d, --delete')
             .parse(process.argv);
         
         if (program.login) login();
@@ -66,6 +70,9 @@ const run = async () => {
             if (program.friends === '') program.friends = JSON.parse(cred).screen_name;
             twitter.getFriendsList(program.friends);
         }
+
+        if (program.requests) twitter.getFriendRequests();
+        
     } catch (err) {
         logError(err);
     }
