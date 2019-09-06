@@ -20,6 +20,16 @@ class twt {
         });
     }
 
+    async makeRequestWithOauth(reqData) {
+        let headers = await generateOAuthHeader(reqData);
+
+        return await axios({
+            url: reqData.url,
+            method: reqData.method,
+            headers,
+        });
+    }
+
     tweet(status) {
         this.client.post('statuses/update', { status }, function(error, tweet, response) {
             if (error) logError(JSON.stringify(error));
@@ -100,13 +110,7 @@ class twt {
         };
 
         try {
-            let headers = await generateOAuthHeader(reqData);
-
-            const res = await axios({
-                url: reqData.url,
-                method: reqData.method,
-                headers,
-            });
+            const res = await this.makeRequestWithOauth(reqData);
             
             res.data.users.forEach(user => {
                 logUser(user);
@@ -130,13 +134,8 @@ class twt {
         };
 
         try {
-            let headers = await generateOAuthHeader(reqData);
 
-            const res = await axios({
-                url: reqData.url,
-                method: reqData.method,
-                headers,
-            });
+            const res = await this.makeRequestWithOauth(reqData);
 
             res.data.users.forEach(user => {
                 logUser(user);
@@ -153,13 +152,7 @@ class twt {
         };
 
         try {
-            let headers = await generateOAuthHeader(reqData);
-
-            const res = await axios({
-                url: reqData.url,
-                method: reqData.method,
-                headers,
-            });
+            let res = await this.makeRequestWithOauth(reqData)
 
             let requestIds = res.data.ids;
 
@@ -173,6 +166,38 @@ class twt {
             });
         } catch (err) {
             logError(JSON.stringify(err.response.data) || "Something went wrong !!!");
+        }
+    }
+
+    async searchUsers(query) {
+        let reqData = {
+            url: `${TWITTER_BASE_URL}/users/search.json?q=${query}`,
+            method: 'GET',
+        };
+
+        try {
+            const res = await this.makeRequestWithOauth(reqData);
+
+            res.data.forEach(user => {
+                logUser(user);
+            });
+        } catch (err) {
+            logError(JSON.stringify(err.response.data) || "Something went wrong !!!");
+        }
+    }
+
+    async getUserInfo(screen_name) {
+        let reqData = {
+            url: `${TWITTER_BASE_URL}/users/show.json?screen_name=${screen_name}`,
+            method: 'GET',
+        };
+
+        try {
+            const res = await this.makeRequestWithOauth(reqData);
+
+            logUser(res.data, { withImage: true });
+        } catch (err) {
+            logError("User Not found.");
         }
     }
 }

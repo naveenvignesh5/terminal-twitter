@@ -51,6 +51,8 @@ $ twcmd --track "some text"
 $ twcmd -s "trump"
 ```
 
+The entire API on how to use is [here](API.md)
+
 ### **Development Environment Setup**
 
 ```shell

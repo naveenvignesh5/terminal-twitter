@@ -24,10 +24,12 @@ const run = async () => {
             .option('-m, --media [value]', 'Upload media as tweet')
             .option('-T, --track [value]', 'Track a hashtag or user for updates')
             .option('-s, --search [value]', 'Search twitter for tweets, keywords, etc.')
+            .option('-u, --user [value]', 'Get User info')
             .option('--followers [value]', 'List your followers and followers of any other user')
             .option('--friends [value]', 'List your friends and friends of any other user')
             .option('-l, --login', 'Login to twitter account')
             .option('-f, --favorite', 'Favorite flag to be used along with tweet flag')
+            .option('-i, --info', 'Information regarding an item')
             .option('--requests', 'List friend requests')
             .option('--logout', 'Logout from application')
             .option('-c, --create')
@@ -39,14 +41,6 @@ const run = async () => {
         
         if (program.logout) logout();
         
-        if (program.media) {
-            if (!program.tweet) {
-                logError("Required tweet text with media upload");
-                return;
-            }
-
-            twitter.tweetWithMedia(program.tweet, program.media);
-        }
         if (program.tweet) {
             
             if (program.favorite) {
@@ -54,10 +48,30 @@ const run = async () => {
                 return;
             }
 
+            if (program.media) {
+                twitter.tweetWithMedia(program.tweet, program.media);
+                return;
+            }
+
+            if (program.search) {
+                twitter.searchTweets(program.search);
+                return;
+            }
+
             twitter.tweet(program.tweet);
         }
 
-        if (program.search) twitter.searchTweets(program.search);
+        if (program.user) {
+            if (program.search) {
+                twitter.searchUsers(program.user);
+                return;
+            }
+
+            if (program.info) {
+                twitter.getUserInfo(program.user);
+                return;
+            }
+        }
 
         if (program.track) twitter.trackTweet(program.track);
 
@@ -67,11 +81,16 @@ const run = async () => {
         }
 
         if (program.friends) {
+            if (program.requests) {
+                twitter.getFriendRequests();
+                return;
+            }
+
             if (program.friends === '') program.friends = JSON.parse(cred).screen_name;
+            
             twitter.getFriendsList(program.friends);
         }
 
-        if (program.requests) twitter.getFriendRequests();
         
     } catch (err) {
         logError(err);
