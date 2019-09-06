@@ -42,7 +42,6 @@ const run = async () => {
         if (program.logout) logout();
         
         if (program.tweet) {
-            
             if (program.favorite) {
                 twitter.favoriteTweets();
                 return;
@@ -77,6 +76,7 @@ const run = async () => {
 
         if (program.followers) {
             if (program.followers === '') program.followers = JSON.parse(cred).screen_name;
+
             twitter.getFollowersList(program.followers);
         }
 
@@ -89,9 +89,7 @@ const run = async () => {
             if (program.friends === '') program.friends = JSON.parse(cred).screen_name;
             
             twitter.getFriendsList(program.friends);
-        }
-
-        
+        }        
     } catch (err) {
         logError(err);
     }

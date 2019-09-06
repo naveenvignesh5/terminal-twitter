@@ -51,6 +51,20 @@ $ twcmd --track "some text"
 $ twcmd -s "trump"
 ```
 
+### List User Information
+
+```shell
+$ twcmd -u "morsetree" -i
+```
+
+![UserInfo](https://raw.githubusercontent.com/naveenvignesh5/twitter-cmd/master/assets/userinfo.gif)
+
+### Search Users
+
+```shell
+$ twcmd --user --search "trump"
+```
+
 The entire API on how to use is [here](API.md)
 
 ### **Development Environment Setup**
@@ -74,3 +88,8 @@ or
 
 $ npm start
 ```
+
+### TODO
+
+* Better documentation
+* Unit tests
