@@ -53,3 +53,11 @@ $ twcmd --friends # list your friends
 
 $ twcmd --friends --request # list your friend requests
 ```
+
+7. Follow and unfollow users
+
+```shell
+$ twcmd -u "Apple" --follow
+
+$ twcmd -u "Apple" --unfollow
+```

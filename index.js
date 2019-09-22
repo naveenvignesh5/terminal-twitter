@@ -30,6 +30,8 @@ const run = async () => {
             .option('-l, --login', 'Login to twitter account')
             .option('-f, --favorite', 'Favorite flag to be used along with tweet flag')
             .option('-i, --info', 'Information regarding an item')
+            .option('--follow', 'Follow user')
+            .option('--unfollow', 'Unfollow user')
             .option('--requests', 'List friend requests')
             .option('--logout', 'Logout from application')
             .option('-c, --create')
@@ -61,6 +63,16 @@ const run = async () => {
         }
 
         if (program.user) {
+            if (program.follow) {
+                twitter.updateFollowUser(program.user, true);
+                return;
+            }
+
+            if (program.unfollow) {
+                twitter.updateFollowUser(program.user, false);
+                return;
+            }
+
             if (program.search) {
                 twitter.searchUsers(program.user);
                 return;
@@ -70,6 +82,7 @@ const run = async () => {
                 twitter.getUserInfo(program.user);
                 return;
             }
+
         }
 
         if (program.track) twitter.trackTweet(program.track);
@@ -89,7 +102,8 @@ const run = async () => {
             if (program.friends === '') program.friends = JSON.parse(cred).screen_name;
             
             twitter.getFriendsList(program.friends);
-        }        
+        }
+        
     } catch (err) {
         logError(err);
     }

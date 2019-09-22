@@ -200,6 +200,21 @@ class twt {
             logError("User Not found.");
         }
     }
+
+    async updateFollowUser(screen_name, follow = false) {
+        let reqData = {
+            url: `${TWITTER_BASE_URL}/friendships/${follow ? 'create' : 'destroy'}.json?screen_name=${screen_name}&follow=${follow}`,
+            method: 'POST',
+        };
+
+        try {
+            const res = await this.makeRequestWithOauth(reqData);
+
+            logInfo(`${follow ? 'Followed' : 'Unfollowed'} ${res.data.name}`);
+        } catch (err) {
+            logError(err.message);
+        }
+    }
 }
 
 module.exports = twt;
